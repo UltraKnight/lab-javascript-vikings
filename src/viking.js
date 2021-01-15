@@ -65,34 +65,25 @@ class War {
         this.saxonArmy.push(saxon);
     }
 
-    attack(attacker, target) {
-        return target.receiveDamage(attacker.strength);
+    attack(arrAttacker, arrTarget) {
+        let attackerPos = Math.floor(Math.random() * arrAttacker.length);
+        let targetPos = Math.floor(Math.random() * arrTarget.length);
+
+        let damageCalc = arrTarget[targetPos].receiveDamage(arrAttacker[attackerPos].strength);
+
+        if(arrTarget[targetPos].health <= 0) {
+            arrTarget.splice(targetPos, 1);
+        }
+
+        return damageCalc;
     }
 
     vikingAttack() {
-        let saxonPos = Math.floor(Math.random() * this.saxonArmy.length);
-        let vikingPos = Math.floor(Math.random() * this.vikingArmy.length);
-
-        let damageCalc = this.saxonArmy[saxonPos].receiveDamage(this.vikingArmy[vikingPos].strength);
-
-        if(this.saxonArmy[saxonPos].health <= 0) {
-            this.saxonArmy.splice(saxonPos, 1);
-        }
-
-        return damageCalc;
+        return this.attack(this.vikingArmy, this.saxonArmy);
     }
 
     saxonAttack() {
-        let saxonPos = Math.floor(Math.random() * this.saxonArmy.length);
-        let vikingPos = Math.floor(Math.random() * this.vikingArmy.length);
-
-        let damageCalc = this.vikingArmy[vikingPos].receiveDamage(this.saxonArmy[saxonPos].strength);
-        
-        if(this.vikingArmy[vikingPos].health <= 0) {
-            this.vikingArmy.splice(vikingPos, 1);
-        }
-
-        return damageCalc;
+        return this.attack(this.saxonArmy, this.vikingArmy);
     }
 
     showStatus() {
